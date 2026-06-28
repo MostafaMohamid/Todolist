@@ -1,29 +1,941 @@
+/* ===========================
+   Google Font
+=========================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* ===========================
+   Reset
+=========================== */
+
 * {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: linear-gradient(120deg, rgb(226, 207, 129), rgb(232, 139, 97));
-  font-family: sans-serif;
+
+  font-family: 'Poppins', sans-serif;
+
   min-height: 100vh;
-  color: #fff;
+
+  background: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
+
+  overflow-x: hidden;
+
+  position: relative;
+
+  color: white;
 }
-header {
-  font-size: 3.125rem;
+
+/* ===========================
+   Background
+=========================== */
+
+.background-circle {
+
+  position: absolute;
+
+  border-radius: 50%;
+
+  filter: blur(120px);
+
+  z-index: -1;
+
+}
+
+.circle-1 {
+
+  width: 320px;
+  height: 320px;
+
+  background: #2563eb;
+
+  top: -120px;
+  left: -120px;
+
+}
+
+.circle-2 {
+
+  width: 350px;
+  height: 350px;
+
+  background: #7c3aed;
+
+  bottom: -120px;
+  right: -120px;
+
+}
+
+/* ===========================
+   Hero
+=========================== */
+
+h1 {
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+}
+
+p {
+
+  font-size: 17px;
+
+}
+
+/* ===========================
+   Statistics
+=========================== */
+
+.stat-card {
+
+  background: rgba(255, 255, 255, .08);
+
+  border: 1px solid rgba(255, 255, 255, .08);
+
+  backdrop-filter: blur(20px);
+
+  border-radius: 18px;
+
+  padding: 25px;
+
   text-align: center;
-  font-family: serif;
-  font-family: "Noto Sans Arabic", sans-serif;
-  font-optical-sizing: auto;
-  margin: 50px 0 ;
+
+  transition: .35s;
 
 }
-.completed {
+
+.stat-card:hover {
+
+  transform: translateY(-8px);
+
+}
+
+.stat-card i {
+
+  font-size: 35px;
+
+  margin-bottom: 15px;
+
+  color: #60a5fa;
+
+}
+
+.stat-card.success i {
+
+  color: #22c55e;
+
+}
+
+.stat-card.warning i {
+
+  color: #f59e0b;
+
+}
+
+.stat-card h2 {
+
+  font-size: 38px;
+
+  margin-bottom: 8px;
+
+}
+
+.stat-card span {
+
+  opacity: .8;
+
+}
+
+/* ===========================
+   Todo Card
+=========================== */
+
+.todo-card {
+
+  background: rgba(255, 255, 255, .08);
+
+  border: 1px solid rgba(255, 255, 255, .08);
+
+  backdrop-filter: blur(20px);
+
+  border-radius: 22px;
+
+  padding: 30px;
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .25);
+
+}
+
+/* ===========================
+   Inputs
+=========================== */
+
+.custom-input {
+
+  height: 55px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: #1e293b;
+
+  color: white;
+
+  transition: .3s;
+
+}
+
+.custom-input::placeholder {
+
+  color: #94a3b8;
+
+}
+
+.custom-input:focus {
+
+  background: #1e293b;
+
+  color: white;
+
+  box-shadow: none;
+
+  border: 1px solid #3b82f6;
+
+}
+
+.form-select {
+
+  color: white !important;
+
+}
+
+.form-select option {
+
+  color: black;
+
+}
+
+/* ===========================
+   Button
+=========================== */
+
+.add-btn {
+
+  height: 55px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+
+  color: white;
+
+  font-weight: 600;
+
+  transition: .3s;
+
+}
+
+.add-btn:hover {
+
+  transform: translateY(-3px);
+
+  box-shadow: 0 12px 25px rgba(59, 130, 246, .35);
+
+}
+
+/* ===========================
+   Todo Card
+=========================== */
+
+.todo {
+
+  animation: fadeIn .35s;
+
+}
+
+.todo-item {
+
+  background: #1e293b;
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  transition: .3s;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .25);
+
+}
+
+.todo-item:hover {
+
+  transform: translateY(-4px);
+
+}
+
+.todo-title {
+
+  padding: 22px;
+
+  font-size: 20px;
+
+  font-weight: 500;
+
+  word-break: break-word;
+
+}
+
+.todo-actions {
+
+  display: flex;
+
+}
+
+.action-btn {
+
+  width: 70px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  cursor: pointer;
+
+  transition: .3s;
+
+}
+
+.complete-btn {
+
+  background: #16a34a;
+
+}
+
+.complete-btn:hover {
+
+  background: #15803d;
+
+}
+
+.delete-btn {
+
+  background: #dc2626;
+
+}
+
+.delete-btn:hover {
+
+  background: #b91c1c;
+
+}
+
+.action-btn i {
+
+  font-size: 22px;
+
+}
+
+/* ===========================
+   Completed
+=========================== */
+
+.completed .todo-title {
+
   text-decoration: line-through;
-  opacity: 0.5;
+
+  opacity: .6;
+
 }
 
+/* ===========================
+   Empty State
+=========================== */
 
+.empty-state {
+
+  margin-top: 60px;
+
+  text-align: center;
+
+  opacity: .7;
+
+}
+
+.empty-state i {
+
+  font-size: 80px;
+
+  margin-bottom: 20px;
+
+}
+
+.empty-state h3 {
+
+  font-size: 30px;
+
+}
+
+.empty-state p {
+
+  margin-top: 10px;
+
+}
+
+/* ===========================
+   Scrollbar
+=========================== */
+
+::-webkit-scrollbar {
+
+  width: 10px;
+
+}
+
+::-webkit-scrollbar-thumb {
+
+  background: #3b82f6;
+
+  border-radius: 20px;
+
+}
+
+/* ===========================
+   Animation
+=========================== */
+
+@keyframes fadeIn {
+
+  from {
+
+    opacity: 0;
+
+    transform: translateY(20px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+  }
+
+}
+
+/* ===========================
+   Mobile
+=========================== */
+
+@media(max-width:768px) {
+
+  .todo-card {
+
+    padding: 20px;
+
+  }
+
+  h1 {
+
+    font-size: 40px;
+
+  }
+
+  .todo-title {
+
+    font-size: 18px;
+
+  }
+
+  .action-btn {
+
+    width: 60px;
+
+  }
+
+}
+
+/* ===========================
+   Google Font
+=========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* ===========================
+   Reset
+=========================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+
+  font-family: 'Poppins', sans-serif;
+
+  min-height: 100vh;
+
+  background: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
+
+  overflow-x: hidden;
+
+  position: relative;
+
+  color: white;
+}
+
+/* ===========================
+   Background
+=========================== */
+
+.background-circle {
+
+  position: absolute;
+
+  border-radius: 50%;
+
+  filter: blur(120px);
+
+  z-index: -1;
+
+}
+
+.circle-1 {
+
+  width: 320px;
+  height: 320px;
+
+  background: #2563eb;
+
+  top: -120px;
+  left: -120px;
+
+}
+
+.circle-2 {
+
+  width: 350px;
+  height: 350px;
+
+  background: #7c3aed;
+
+  bottom: -120px;
+  right: -120px;
+
+}
+
+/* ===========================
+   Hero
+=========================== */
+
+h1 {
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+}
+
+p {
+
+  font-size: 17px;
+
+}
+
+/* ===========================
+   Statistics
+=========================== */
+
+.stat-card {
+
+  background: rgba(255, 255, 255, .08);
+
+  border: 1px solid rgba(255, 255, 255, .08);
+
+  backdrop-filter: blur(20px);
+
+  border-radius: 18px;
+
+  padding: 25px;
+
+  text-align: center;
+
+  transition: .35s;
+
+}
+
+.stat-card:hover {
+
+  transform: translateY(-8px);
+
+}
+
+.stat-card i {
+
+  font-size: 35px;
+
+  margin-bottom: 15px;
+
+  color: #60a5fa;
+
+}
+
+.stat-card.success i {
+
+  color: #22c55e;
+
+}
+
+.stat-card.warning i {
+
+  color: #f59e0b;
+
+}
+
+.stat-card h2 {
+
+  font-size: 38px;
+
+  margin-bottom: 8px;
+
+}
+
+.stat-card span {
+
+  opacity: .8;
+
+}
+
+/* ===========================
+   Todo Card
+=========================== */
+
+.todo-card {
+
+  background: rgba(255, 255, 255, .08);
+
+  border: 1px solid rgba(255, 255, 255, .08);
+
+  backdrop-filter: blur(20px);
+
+  border-radius: 22px;
+
+  padding: 30px;
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .25);
+
+}
+
+/* ===========================
+   Inputs
+=========================== */
+
+.custom-input {
+
+  height: 55px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: #1e293b;
+
+  color: white;
+
+  transition: .3s;
+
+}
+
+.custom-input::placeholder {
+
+  color: #94a3b8;
+
+}
+
+.custom-input:focus {
+
+  background: #1e293b;
+
+  color: white;
+
+  box-shadow: none;
+
+  border: 1px solid #3b82f6;
+
+}
+
+.form-select {
+
+  color: white !important;
+
+}
+
+.form-select option {
+
+  color: black;
+
+}
+
+/* ===========================
+   Button
+=========================== */
+
+.add-btn {
+
+  height: 55px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+
+  color: white;
+
+  font-weight: 600;
+
+  transition: .3s;
+
+}
+
+.add-btn:hover {
+
+  transform: translateY(-3px);
+
+  box-shadow: 0 12px 25px rgba(59, 130, 246, .35);
+
+}
+
+/* ===========================
+   Todo Card
+=========================== */
+
+.todo {
+
+  animation: fadeIn .35s;
+
+}
+
+.todo-item {
+
+  background: #1e293b;
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  transition: .3s;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .25);
+
+}
+
+.todo-item:hover {
+
+  transform: translateY(-4px);
+
+}
+
+.todo-title {
+
+  padding: 22px;
+
+  font-size: 20px;
+
+  font-weight: 500;
+
+  word-break: break-word;
+
+}
+
+.todo-actions {
+
+  display: flex;
+
+}
+
+.action-btn {
+
+  width: 70px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  cursor: pointer;
+
+  transition: .3s;
+
+}
+
+.complete-btn {
+
+  background: #16a34a;
+
+}
+
+.complete-btn:hover {
+
+  background: #15803d;
+
+}
+
+.delete-btn {
+
+  background: #dc2626;
+
+}
+
+.delete-btn:hover {
+
+  background: #b91c1c;
+
+}
+
+.action-btn i {
+
+  font-size: 22px;
+
+}
+
+/* ===========================
+   Completed
+=========================== */
+
+.completed .todo-title {
+
+  text-decoration: line-through;
+
+  opacity: .6;
+
+}
+
+/* ===========================
+   Empty State
+=========================== */
+
+.empty-state {
+
+  margin-top: 60px;
+
+  text-align: center;
+
+  opacity: .7;
+
+}
+
+.empty-state i {
+
+  font-size: 80px;
+
+  margin-bottom: 20px;
+
+}
+
+.empty-state h3 {
+
+  font-size: 30px;
+
+}
+
+.empty-state p {
+
+  margin-top: 10px;
+
+}
+
+/* ===========================
+   Scrollbar
+=========================== */
+
+::-webkit-scrollbar {
+
+  width: 10px;
+
+}
+
+::-webkit-scrollbar-thumb {
+
+  background: #3b82f6;
+
+  border-radius: 20px;
+
+}
+
+/* ===========================
+   Animation
+=========================== */
+
+@keyframes fadeIn {
+
+  from {
+
+    opacity: 0;
+
+    transform: translateY(20px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+  }
+
+}
+
+/* ===========================
+   Mobile
+=========================== */
+
+@media(max-width:768px) {
+
+  .todo-card {
+
+    padding: 20px;
+
+  }
+
+  h1 {
+
+    font-size: 40px;
+
+  }
+
+  .todo-title {
+
+    font-size: 18px;
+
+  }
+
+  .action-btn {
+
+    width: 60px;
+
+  }
+
+}

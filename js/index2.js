@@ -1,102 +1,197 @@
-var taskInputBtn  = document.getElementById("taskInput");
-var todoAddButton = document.getElementById("todo-button");
-var todosContainer = document.getElementById("todos-container");
-var mySelect  = document.getElementById("mySelect");
-var searchInput=document.getElementById("searchInput");
- var allTodos = []
- if(localStorage.getItem('allTodos') !=null){
-    allTodos = JSON.parse(localStorage.getItem("allTodos"));
-    displayData(allTodos)
- }
-todoAddButton.addEventListener('click',function(){
-    var task = {
-        taskDetails:taskInputBtn.value,
-        isCompleted:true,
-        id:`${Math.random()*10000}-${Math.random()*10000}`
+const taskInput = document.getElementById("taskInput");
+const addBtn = document.getElementById("todo-button");
+const todosContainer = document.getElementById("todos-container");
+const filterSelect = document.getElementById("mySelect");
+const searchInput = document.getElementById("searchInput");
+
+const totalTasks = document.getElementById("totalTasks");
+const completedTasks = document.getElementById("completedTasks");
+const pendingTasks = document.getElementById("pendingTasks");
+const emptyState = document.getElementById("emptyState");
+
+let allTodos = [];
+
+/* ===========================
+   Local Storage
+=========================== */
+
+const saveTodos = () => {
+    localStorage.setItem("allTodos", JSON.stringify(allTodos));
+};
+
+const loadTodos = () => {
+    const storedTodos = localStorage.getItem("allTodos");
+
+    if (storedTodos) {
+        allTodos = JSON.parse(storedTodos);
     }
-    allTodos.push(task);
-    localStorage.setItem('allTodos',JSON.stringify(allTodos))
-    displayData(allTodos);
-    clear()
-})
+
+    renderTodos(allTodos);
+};
 
 
+/* ===========================
+   Add Todo
+=========================== */
 
-function displayData(arr){
-    var cartoona = ""
-for (var task of arr) {
-    cartoona+=`
-    <div class="col-11 todo ${task.isCompleted == true ? "completed":""}">
-    <div class="row bg-dark">
-      <div class="col-8  py-3 fs-5">${task.taskDetails}</div>
-      <div class="col-2  py-3 bg-success d-flex justify-content-center" onclick="beCompleted('${task.id}')"><i class="fa-solid fa-check fs-3  d-flex align-items-center"></i></div>
-      <div class="col-2  py-3 bg-danger d-flex justify-content-center" onclick="deltedTodo('${task.id}')"><i class="fa-solid fa-trash fs-3  d-flex align-items-center"></i></div>
-    </div>
-  </div>
-    `
-}
-todosContainer.innerHTML = cartoona
-}
-function beCompleted(id){
- var foundedIndex = allTodos.findIndex(function(task){return task.id == id });
- allTodos[foundedIndex].isCompleted = allTodos[foundedIndex].isCompleted == true ? false : true
- localStorage.setItem('allTodos',JSON.stringify(allTodos));
- DisplayAccordingToSelectValue();
+const addTodo = () => {
+    const value = taskInput.value.trim();
 
-}
+    if (!value) return;
 
-mySelect.addEventListener('change',function(){
-    DisplayAccordingToSelectValue()
-})
+    const task = {
+        id: crypto.randomUUID(),
+        taskDetails: value,
+        isCompleted: false,
+        createdAt: new Date().toLocaleDateString(),
+    };
+
+    allTodos.unshift(task);
+
+    saveTodos();
+
+    renderTodos(allTodos);
+
+    taskInput.value = "";
+};
+
+addBtn.addEventListener("click", addTodo);
+
+taskInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+        addTodo();
+    }
+});
+
+/* ===========================
+   Statistics
+=========================== */
+
+const updateStatistics = () => {
+    totalTasks.textContent = allTodos.length;
+
+    completedTasks.textContent = allTodos.filter(
+        (todo) => todo.isCompleted
+    ).length;
+
+    pendingTasks.textContent = allTodos.filter(
+        (todo) => !todo.isCompleted
+    ).length;
+};
+
+/* ===========================
+   Empty State
+=========================== */
+
+const toggleEmptyState = () => {
+    emptyState.classList.toggle("d-none", allTodos.length !== 0);
+};
+
+/* ===========================
+   Render Todos
+=========================== */
+
+const renderTodos = (todos) => {
+
+    todosContainer.innerHTML = "";
+
+    todos.forEach(task => {
+
+        todosContainer.innerHTML += `
+        <div class="col-12 todo ${task.isCompleted ? "completed" : ""}">
+
+            <div class="todo-item d-flex justify-content-between align-items-center">
+
+                <div class="todo-title">
+                    ${task.taskDetails}
+                </div>
+
+                <div class="todo-actions">
+
+                    <button
+                        class="action-btn complete-btn"
+                        onclick="toggleComplete('${task.id}')">
+
+                        <i class="fa-solid fa-check"></i>
+
+                    </button>
+
+                    <button
+                        class="action-btn delete-btn"
+                        onclick="deleteTodo('${task.id}')">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+        `;
+
+    });
+
+    updateStatistics();
+
+    toggleEmptyState();
+
+};
+const toggleComplete = (id) => {
+
+    const todo = allTodos.find(todo => todo.id === id);
+
+    if (!todo) return;
+
+    todo.isCompleted = !todo.isCompleted;
+
+    saveTodos();
+
+    renderTodos(allTodos);
+
+};
+const deleteTodo = (id) => {
+
+    allTodos = allTodos.filter(todo => todo.id !== id);
+
+    saveTodos();
+
+    renderTodos(allTodos);
 
 
-function DisplayAccordingToSelectValue (){
-    switch(mySelect.options[mySelect.options.selectedIndex].value){
-        case 'all':
-            displayData(allTodos);
+};
+
+searchInput.addEventListener("input", (e) => {
+    const value = e.target.value.toLowerCase().trim();
+
+    const filteredTodos = allTodos.filter(todo =>
+        todo.taskDetails.toLowerCase().includes(value)
+    );
+
+    renderTodos(filteredTodos);
+});
+filterSelect.addEventListener("change", () => {
+
+    switch (filterSelect.value) {
+
+        case "all":
+            renderTodos(allTodos);
             break;
-        case 'completed':
-           var compltedFilterd =  allTodos.filter(function(hamada){ return hamada.isCompleted == true});
-           displayData(compltedFilterd);
-           break;
-        case 'uncompleted' : 
-        var unCompletedFilter =allTodos.filter(function(hambozo){ return hambozo.isCompleted==false});
-        displayData(unCompletedFilter)
+
+        case "completed":
+            renderTodos(
+                allTodos.filter(todo => todo.isCompleted)
+            );
+            break;
+
+        case "uncompleted":
+            renderTodos(
+                allTodos.filter(todo => !todo.isCompleted)
+            );
+            break;
+
     }
-}
 
-
-
-
-
-function deltedTodo(id){
-    console.log(id);
-    var index = allTodos.findIndex(function(task){return task.id == id});
-    allTodos.splice(index,1)
-    displayData(allTodos);
-    localStorage.setItem("allTodos",JSON.stringify(allTodos));    
-}
-
-
-
-
-
-
-
-
-searchInput.addEventListener('input',function(e){
-    console.log(e.target.value);
-    var searchResult=[] 
-    for(var i = 0 ; i<allTodos.length ;i++){
-        
-        if(allTodos[i].taskDetails.toLowerCase().includes(e.target.value.toLowerCase())){
-            searchResult.push(allTodos[i])
-        }
-    }
-    displayData(searchResult)
-})
-
-
-function clear(){
-    taskInputBtn.value= ""
-}
+});
+loadTodos();
